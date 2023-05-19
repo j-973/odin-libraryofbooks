@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    background-color: cornsilk;
+}
+
+h1, h2, p {
+    margin: 10px;
+}
+
+#wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    justify-content: start;
+    width: 98vw;
+    height: 98vh;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: 50%;
+    width: 50%;
+    background-color: lightgoldenrodyellow;
+    color: black;
+    border: 4px solid saddlebrown;
+    margin: 10px;
+}
+
+.card-text {
+    align-content: center;
+    justify-content: center;
+}
