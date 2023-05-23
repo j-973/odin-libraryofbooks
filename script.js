@@ -9,8 +9,8 @@ function Book(title, authorFirst, authorLast, genre, publishDate) {
   this.publishDate = publishDate;
 }
 
-//moved book card creation to its own function which returns a card.
-//Can be called when adding a book to the library, or when creating cards from the existing books in the library array
+let wrapper = document.getElementById('wrapper');
+
 createCard = (book) => {
   let card = document.createElement('div'),
     cardText = document.createElement('div');
@@ -47,23 +47,66 @@ createCardsFromLibrary = () => {
   }
 }
 
-//after prompting the user for input information on the properties of a book, an instance of the book object is created with the 'new' keyword, and added to the library array with push().
-addBookToLibrary = () => {
-    let title = prompt("What's the title of the book you want to add?:");
-    let authorFirst = prompt("What's the book author's first name?:");
-    let authorLast = prompt("What's the author's last name?:");
-    let genre = prompt("What's the book's genre?:");
-    let publishDate = prompt("When was the book published? Enter as mm/dd/yyyy:");
-  
+createBookForm = () => {
+  let bookForm = document.createElement('form');
+  bookForm.setAttribute('class', 'card');
+
+  let titleInput = document.createElement('input');
+  titleInput.setAttribute('type', 'text');
+  titleInput.setAttribute('placeholder', 'Title');
+  bookForm.appendChild(titleInput);
+
+  let authorFirstInput = document.createElement('input');
+  authorFirstInput.setAttribute('type', 'text');
+  authorFirstInput.setAttribute('placeholder', 'Author First Name');
+  bookForm.appendChild(authorFirstInput);
+
+  let authorLastInput = document.createElement('input');
+  authorLastInput.setAttribute('type', 'text');
+  authorLastInput.setAttribute('placeholder', 'Author Last Name');
+  bookForm.appendChild(authorLastInput);
+
+  let genreInput = document.createElement('input');
+  genreInput.setAttribute('type', 'text');
+  genreInput.setAttribute('placeholder', 'Genre');
+  bookForm.appendChild(genreInput);
+
+  let publishDateInput = document.createElement('input');
+  publishDateInput.setAttribute('type', 'date');
+  publishDateInput.setAttribute('placeholder', 'Publish Date (mm/dd/yyyy)');
+  bookForm.appendChild(publishDateInput);
+
+  let submitButton = document.createElement('button');
+  submitButton.textContent = 'Add New Book';
+  bookForm.appendChild(submitButton);
+
+  wrapper.appendChild(bookForm);
+
+  bookForm.addEventListener('submit', addBookToLibrary);
+}
+
+addBookToLibrary = (ev) => {
+  //prevent the default behavior of submitting the form to a server, and get the value of each of the form's inputs based on their unique attributes. 
+  ev.preventDefault();
+
+  //sets a reference to the target (the book form) that triggered the submit event
+  let bookForm = ev.target;
+
+  let title = bookForm.querySelector('[placeholder="Title"]').value,
+      authorFirst = bookForm.querySelector('[placeholder="Author First Name"]').value,
+      authorLast = bookForm.querySelector('[placeholder="Author Last Name"]').value,
+      genre = bookForm.querySelector('[placeholder="Genre"]').value,
+      publishDate = bookForm.querySelector('[type="date"]').value;
+
     let book = new Book(title, authorFirst, authorLast, genre, publishDate);
     library.push(book);
+
+    bookForm.remove();
 
     let card = createCard(book);
     wrapper.appendChild(card);
 }
 
 
-
-let wrapper = document.getElementById('wrapper');
-
-document.addEventListener("click", addBookToLibrary);
+btnNewBook = document.getElementById('new-book');
+btnNewBook.addEventListener("click", createBookForm);
