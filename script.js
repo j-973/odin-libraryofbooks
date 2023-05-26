@@ -26,7 +26,12 @@ createCard = (book) => {
     genre = document.createElement('p'),
     publishDate = document.createElement('p'),
     numPages = document.createElement('p'),
-    readStatus = document.createElement('p');
+    readStatus = document.createElement('p'),
+    btnRemoveBook = document.createElement('button');
+
+    //setting a data attribute on the card HTML element that stores the index number of the book card being created
+    //the dataset property allows you to read and write custom data attributes on HTML elements as strings of text
+    card.dataset.bookIndexNum = library.indexOf(book);
 
   title.textContent = book.title;
   cardText.appendChild(title);
@@ -45,6 +50,10 @@ createCard = (book) => {
 
   readStatus.textContent = `Book Read?: ${book.readStatus}`;
   cardText.appendChild(readStatus);
+
+  btnRemoveBook.textContent = `Remove ${book.title} from Library`;
+  cardText.appendChild(btnRemoveBook);
+  btnRemoveBook.addEventListener("click", removeBookFromLibrary);
 
   return card;
 }
@@ -105,6 +114,22 @@ createBookForm = () => {
   wrapper.appendChild(bookForm);
 
   bookForm.addEventListener('submit', addBookToLibrary);
+}
+
+removeBookFromLibrary = (ev) => {
+  const NUM_TO_REMOVE = 1;
+
+  //sets a reference to the remove button that triggers this function on click
+  let btnRemoveBook = ev.target;
+
+  //.closest goes up the DOM to find the .card element nearest to the remove button, which we want to remove
+  let card = btnRemoveBook.closest('.card');
+
+  //converts bookIndexNum to an integer so it can be used in the splice method.
+  //after the book is removed from the library array, the card displaying the book is also removed 
+  let bookIndexNum = parseInt(card.dataset.bookIndexNum);
+  library.splice(bookIndexNum, NUM_TO_REMOVE);
+  card.remove();
 }
 
 addBookToLibrary = (ev) => {
