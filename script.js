@@ -11,6 +11,11 @@ function Book(title, authorFirst, authorLast, genre, publishDate, numPages, read
   this.readStatus = readStatus;
 }
 
+//The ! not operator reverses the read status of the book with each call.  
+Book.prototype.toggleReadStatus = function() {
+  this.readStatus = !(this.readStatus);
+}
+
 let wrapper = document.getElementById('wrapper');
 
 createCard = (book) => {
@@ -27,10 +32,10 @@ createCard = (book) => {
     publishDate = document.createElement('p'),
     numPages = document.createElement('p'),
     readStatus = document.createElement('p'),
-    btnRemoveBook = document.createElement('button');
+    btnRemoveBook = document.createElement('button'),
+    btnToggleReadStatus = document.createElement('button');
 
     //setting a data attribute on the card HTML element that stores the index number of the book card being created
-    //the dataset property allows you to read and write custom data attributes on HTML elements as strings of text
     card.dataset.bookIndexNum = library.indexOf(book);
 
   title.textContent = book.title;
@@ -54,6 +59,15 @@ createCard = (book) => {
   btnRemoveBook.textContent = `Remove ${book.title} from Library`;
   cardText.appendChild(btnRemoveBook);
   btnRemoveBook.addEventListener("click", removeBookFromLibrary);
+
+    handleReadToggle = () => {
+      book.toggleReadStatus();
+      readStatus.textContent = `Book Read?: ${book.readStatus}`;
+    }
+
+  btnToggleReadStatus.textContent = `Mark ${book.title} as Read/Unread`;
+  cardText.appendChild(btnToggleReadStatus);
+  btnToggleReadStatus.addEventListener("click", handleReadToggle);
 
   return card;
 }
@@ -125,8 +139,6 @@ removeBookFromLibrary = (ev) => {
   //.closest goes up the DOM to find the .card element nearest to the remove button, which we want to remove
   let card = btnRemoveBook.closest('.card');
 
-  //converts bookIndexNum to an integer so it can be used in the splice method.
-  //after the book is removed from the library array, the card displaying the book is also removed 
   let bookIndexNum = parseInt(card.dataset.bookIndexNum);
   library.splice(bookIndexNum, NUM_TO_REMOVE);
   card.remove();
@@ -156,7 +168,6 @@ addBookToLibrary = (ev) => {
     let card = createCard(book);
     wrapper.appendChild(card);
 }
-
 
 btnNewBook = document.getElementById('new-book');
 btnNewBook.addEventListener("click", createBookForm);
