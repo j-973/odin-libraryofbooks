@@ -11,9 +11,13 @@ function Book(title, authorFirst, authorLast, genre, publishDate, numPages, read
   this.readStatus = readStatus;
 }
 
-//The ! not operator reverses the read status of the book with each call.  
 Book.prototype.toggleReadStatus = function() {
-  this.readStatus = !(this.readStatus);
+  if (this.readStatus === "Yes") {
+    this.readStatus = "No";
+  }
+  else {
+    this.readStatus = "Yes";
+  }
 }
 
 let wrapper = document.getElementById('wrapper');
@@ -157,8 +161,8 @@ addBookToLibrary = (ev) => {
       genre = bookForm.querySelector('[placeholder="Genre"]').value,
       publishDate = bookForm.querySelector('[type="date"]').value,
       numPages = bookForm.querySelector('[placeholder="# of Pages"]').value,
-      readStatus = bookForm.querySelector('[type="checkbox"]');
-        readStatus = readStatus.checked;
+      readStatus = bookForm.querySelector('[type="checkbox"]').checked;
+        readStatus = readStatus ? "Yes" : "No";
 
     let book = new Book(title, authorFirst, authorLast, genre, publishDate, numPages, readStatus);
     library.push(book);
