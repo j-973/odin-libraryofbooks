@@ -1,22 +1,24 @@
 let library = [];
 
-//constructor function to define the properties of a book to be added to the library array.
-function Book(title, authorFirst, authorLast, genre, publishDate, numPages, readStatus) {
-  this.title = title;
-  this.authorFirst = authorFirst;
-  this.authorLast = authorLast;
-  this.genre = genre;
-  this.publishDate = publishDate;
-  this.numPages = numPages;
-  this.readStatus = readStatus;
-}
-
-Book.prototype.toggleReadStatus = function() {
-  if (this.readStatus === "Yes") {
-    this.readStatus = "No";
+//class with a constructor to define the properties of a book to be added to the library array.
+//toggleReadStatus is a method for any instance of the Book class
+class Book {
+  constructor(title, authorFirst, authorLast, genre, publishDate, numPages, readStatus) {
+    this.title = title;
+    this.authorFirst = authorFirst;
+    this.authorLast = authorLast;
+    this.genre = genre;
+    this.publishDate = publishDate;
+    this.numPages = numPages;
+    this.readStatus = readStatus;
   }
-  else {
-    this.readStatus = "Yes";
+  toggleReadStatus() {
+    if (this.readStatus === "Yes") {
+      this.readStatus = "No";
+    }
+    else {
+      this.readStatus = "Yes";
+    }
   }
 }
 
